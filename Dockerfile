@@ -17,16 +17,20 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p $KRAKEN_DB_PATH && \
-    curl -fsSL $KRAKEN_DB_URL | tar -C $KRAKEN_DB_PATH -xzvf -
+    curl -fsSL $KRAKEN_DB_URL --output minikraken_20171019_4GB.tgz && \
+    tar -C $KRAKEN_DB_PATH -xzvf minikraken_20171019_4GB.tgz && \
+    rm -f minikraken_20171019_4GB.tgz
 
 RUN mkdir -p $CENTRIFUGE_DB_PATH && \
-    curl $CENTRIFUGE_DB_URL | tar -C $CENTRIFUGE_DB_PATH -xvzf -
+    curl $CENTRIFUGE_DB_URL --output p_compressed+h+v.tar.gz && \
+    tar -C $CENTRIFUGE_DB_PATH -xvzf p_compressed+h+v.tar.gz && \
+    rm -f p_compressed+h+v.tar.gz
 
 RUN conda install -y -c bioconda -c conda-forge nullarbor
 
 # samtools openssl fix - this step can be removed once this problem is properly fixed in future package versions
 RUN conda install -y -c bioconda samtools=1.9 bcftools --force-reinstall
-RUN conda install -y openssl=1.1
+RUN conda install -y openssl=1.1 nbgitpuller=0.8.0
 RUN conda install -y perl --force-reinstall
 # ensure samtools and bcftools run without libcrypto error
 RUN samtools --version
