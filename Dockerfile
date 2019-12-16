@@ -29,16 +29,16 @@ RUN mkdir -p $CENTRIFUGE_DB_PATH && \
 RUN conda install -y -c bioconda -c conda-forge nullarbor
 
 # samtools openssl fix - this step can be removed once this problem is properly fixed in future package versions
-RUN conda install -y -c bioconda samtools=1.9 bcftools --force-reinstall
+RUN conda install -y -c bioconda samtools=1.9 bcftools --force
 RUN conda install -y openssl=1.1 nbgitpuller=0.8.0
-RUN conda install -y perl --force-reinstall
+RUN conda install -y perl --force
 # ensure samtools and bcftools run without libcrypto error
 RUN samtools --version
 RUN bcftools --version
 
 # kraken2 seems to clobber the /opt/conda/libexec/classify binary from kraken,
 # so we force install kraken again to ensure classify is the correct version
-RUN conda install -y -c bioconda kraken --force-reinstall
+RUN conda install -y -c bioconda kraken --force
 
 # sanity check
 RUN nullarbor.pl --check
