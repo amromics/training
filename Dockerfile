@@ -43,4 +43,6 @@ RUN conda install -y -c bioconda kraken --force
 # sanity check
 RUN nullarbor.pl --check
 
-ENTRYPOINT ["nullarbor.pl"]
+USER $NB_UID
+
+# ENTRYPOINT ["nullarbor.pl"]
